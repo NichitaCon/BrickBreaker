@@ -1,6 +1,6 @@
 let myKey = "";
 let barPosX;
-let barPosY = 150;
+let barPosY;
 let barWidth;
 let barHeight;
 
@@ -13,16 +13,21 @@ let barSpeed = 3;
 
 let r = 5;
 
+let ball;
+
 function setup() {
-    createCanvas(500, 250);
+    createCanvas(250, 300);
     angleMode(DEGREES);
     ballPosX = width / 2;
     ballPosY = height / 2;
 
     barPosX = width / 2.5;
+    barPosY = height * 0.9;
 
     barWidth = 50;
-    barHeight = 5;
+    barHeight = 10;
+
+    ball = new Ball(width / 2, height / 2, 1, 5, 10);
 }
 
 function draw() {
@@ -31,7 +36,20 @@ function draw() {
 
     //BAR SECTION
 
-    //movement
+    // barBounce
+    if (
+        //TopSurface
+        ballPosY >= barPosY - r &&
+        // Larger than left side
+        ballPosX >= barPosX &&
+        //larger than right side
+        ballPosX <= barPosX + barWidth
+    ) {
+        yspeed = -yspeed;
+        // console.log(ballPosY);
+    }
+
+    // BarMovement
     push();
     if (keyIsDown(LEFT_ARROW) === true) {
         barPosX -= barSpeed;
@@ -48,45 +66,9 @@ function draw() {
     } else if (barPosX > width - barWidth) {
         barPosX = width - barWidth;
     }
-    console.log(barPosX);
+    // console.log(barPosX);
 
     //BALL SECTION
-    ellipse(ballPosX, ballPosY, r * 2, r * 2);
-    ballPosX += xspeed;
-    ballPosY += yspeed;
-
-    if (ballPosX > width - r || ballPosX < r) {
-        xspeed = -xspeed;
-    }
-
-    if (ballPosY > height - r || ballPosY < r) {
-        yspeed = -yspeed;
-    }
-
-    // barBounce
-    if (
-        //TopSurface
-        ballPosY == barPosY - r &&
-        //Larger than left side
-        ballPosX > barPosX &&
-        //larger than right side
-        ballPosX < barPosX + barWidth
-    ) {
-        yspeed = -yspeed;
-    }
-
-    // if (
-    //     ballPosY > barPosY 
-    //     && ballPosX == barPosX - r 
-    //     || ballPosX == barPosX + barWidth - r
-    // ) {
-    //     xspeed = -xspeed
-    // }
-
-
-
-    if (        //bottomSurface
-        ballPosY >= height - r) {
-            console.log("bottom hit")
-        }
+    ball.drawBall();
+    ball.moveBall();
 }
