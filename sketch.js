@@ -14,6 +14,7 @@ let barSpeed = 3;
 let r = 5;
 
 let ball;
+let paddle;
 
 function setup() {
     createCanvas(250, 300);
@@ -28,6 +29,7 @@ function setup() {
     barHeight = 10;
 
     ball = new Ball(width / 2, height / 2, 1, 5, 10);
+    paddle = new Paddle(100, 20, width / 1.5, height * .9, 1)
 }
 
 function draw() {
@@ -36,37 +38,40 @@ function draw() {
 
     //BAR SECTION
 
-    // barBounce
-    if (
-        //TopSurface
-        ballPosY >= barPosY - r &&
-        // Larger than left side
-        ballPosX >= barPosX &&
-        //larger than right side
-        ballPosX <= barPosX + barWidth
-    ) {
-        yspeed = -yspeed;
-        // console.log(ballPosY);
-    }
+    // // barBounce
+    // if (
+    //     //TopSurface
+    //     ballPosY >= barPosY - r &&
+    //     // Larger than left side
+    //     ballPosX >= barPosX &&
+    //     //larger than right side
+    //     ballPosX <= barPosX + barWidth
+    // ) {
+    //     yspeed = -yspeed;
+    //     // console.log(ballPosY);
+    // }
 
-    // BarMovement
-    push();
-    if (keyIsDown(LEFT_ARROW) === true) {
-        barPosX -= barSpeed;
-    } else if (keyIsDown(RIGHT_ARROW) === true) {
-        barPosX += barSpeed;
-    }
-    translate(barPosX, barPosY);
-    rect(0, 0, barWidth, barHeight);
-    pop();
+    // // BarMovement
+    // push();
+    // if (keyIsDown(LEFT_ARROW) === true) {
+    //     barPosX -= barSpeed;
+    // } else if (keyIsDown(RIGHT_ARROW) === true) {
+    //     barPosX += barSpeed;
+    // }
+    // translate(barPosX, barPosY);
+    // rect(0, 0, barWidth, barHeight);
+    // pop();
 
-    //walls
-    if (barPosX < 0) {
-        barPosX = 0;
-    } else if (barPosX > width - barWidth) {
-        barPosX = width - barWidth;
-    }
+    // //walls
+    // if (barPosX < 0) {
+    //     barPosX = 0;
+    // } else if (barPosX > width - barWidth) {
+    //     barPosX = width - barWidth;
+    // }
     // console.log(barPosX);
+
+    paddle.drawPaddle()
+    paddle.paddleMovement()
 
     //BALL SECTION
     ball.drawBall();
