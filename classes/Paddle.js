@@ -4,7 +4,7 @@ class Paddle {
         this.sizeY = 20;
         this.barPosX = width / 1.5;
         this.barPosY = height * 0.9;
-        this.barSpeed = 1;
+        this.barSpeed = 10;
     }
 
     drawPaddle() {
@@ -29,8 +29,8 @@ class Paddle {
             this.barPosX = 0;
         }
         //right side
-        else if (this.barPosX > width - this.sizeY) {
-            this.barPosX = width - this.sizeY;
+        else if (this.barPosX > width - this.sizeX) {
+            this.barPosX = width - this.sizeX;
         }
         console.log(barPosX);
     }
