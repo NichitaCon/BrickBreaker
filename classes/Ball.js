@@ -33,7 +33,7 @@ class Ball {
 
         //bottom surface detection
         if (this.ballPosY >= height - this.radius) {
-            console.log("bottom hit");
+            // console.log("bottom hit");
         }
     }
 }

@@ -32,6 +32,6 @@ class Paddle {
         else if (this.barPosX > width - this.sizeX) {
             this.barPosX = width - this.sizeX;
         }
-        console.log(barPosX);
+        console.log("bar pos x is = ",barPosX);
     }
 }

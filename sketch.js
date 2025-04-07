@@ -29,7 +29,7 @@ function setup() {
     barHeight = 10;
 
     ball = new Ball(width / 2, height / 2, 1, 5, 10);
-    paddle = new Paddle(100, 20, width / 1.5, height * .9, 1)
+    paddle = new Paddle(100, 20, width / 1.5, height * 0.9, 1);
 }
 
 function draw() {
@@ -70,10 +70,26 @@ function draw() {
     // }
     // console.log(barPosX);
 
-    paddle.drawPaddle()
-    paddle.paddleMovement()
+    paddle.drawPaddle();
+    paddle.paddleMovement();
 
     //BALL SECTION
     ball.drawBall();
     ball.moveBall();
+    checkCollision();
+}
+
+function checkCollision() {
+    if (
+        // if ball is larger than left side of paddle
+        ball.ballPosX > paddle.barPosX && // And if
+        // if ball is less that the right side of the paddle
+        ball.ballPosX < paddle.barPosX + paddle.sizeX && //and if
+        // Ball is touching the top side of the paddle
+        ball.ballPosY + ball.radius > 270
+    ) {
+        console.log("GOT IT")
+        ball.yspeed *= -1;
+    }
+    text(ball.ballPosY,50,50)
 }
