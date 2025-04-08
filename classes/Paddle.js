@@ -1,9 +1,9 @@
 class Paddle {
     constructor(sizeX, sizeY, barPosX, barPosY, barSpeed) {
         this.sizeX = 100;
-        this.sizeY = 200;
+        this.sizeY = 10;
         this.barPosX = width / 1.5;
-        this.barPosY = height * 0.2;
+        this.barPosY = height * 0.9;
         this.barSpeed = 10;
     }
 

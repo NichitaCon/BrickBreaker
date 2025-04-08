@@ -13,7 +13,7 @@ class Ball {
         // console.log(this.velX)
         push();
         translate(this.ballPosX,this.ballPosY)
-        ellipse(0, 0, this.radius, this.radius);
+        ellipse(0, 0, this.radius *2, this.radius*2);
         pop();
     }
     
