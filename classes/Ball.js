@@ -1,9 +1,7 @@
 class Ball {
-    constructor(ballPosX,ballPosY,xspeed,yspeed,radius) {
-        this.ballPosX = ballPosX
-        this.ballPosY = ballPosY
-        this.xspeed = xspeed
-        this.yspeed = yspeed
+    constructor(ballPosX,ballPosY,velX,velY,radius) {
+        this.pos = createVector(ballPosX,ballPosY)
+        this.vel = createVector(velX,velY)
         this.radius = radius
 
     }
@@ -12,27 +10,27 @@ class Ball {
     drawBall() {
         // console.log(this.velX)
         push();
-        translate(this.ballPosX,this.ballPosY)
-        ellipse(0, 0, this.radius *2, this.radius*2);
+            translate(this.pos.x,this.pos.y)
+            ellipse(0, 0, this.radius *2, this.radius*2);
         pop();
     }
     
     moveBall() {
         
-        this.ballPosX = this.ballPosX + this.xspeed;
-        this.ballPosY = this.ballPosY + this.yspeed;
+        this.pos.x = this.pos.x + this.vel.x;
+        this.pos.y = this.pos.y + this.vel.y;
         //bounce off left OR right wall
-        if (this.ballPosX > width - this.radius || this.ballPosX < this.radius) {
-            this.xspeed = -this.xspeed;
+        if (this.pos.x > width - this.radius || this.pos.x < this.radius) {
+            this.vel.x = -this.vel.x;
         }
 
         //bounce off top OR bottom wall
-        if (this.ballPosY > height - this.radius || this.ballPosY < this.radius) {
-            this.yspeed = -this.yspeed;
+        if (this.pos.y > height - this.radius || this.pos.y < this.radius) {
+            this.vel.y = -this.vel.y;
         }
 
         //bottom surface detection
-        if (this.ballPosY >= height - this.radius) {
+        if (this.pos.y >= height - this.radius) {
             // console.log("bottom hit");
         }
     }

@@ -1,17 +1,4 @@
 let myKey = "";
-let barPosX;
-let barPosY;
-let barWidth;
-let barHeight;
-
-let ballPosX;
-let ballPosY;
-let xspeed = 0.5;
-let yspeed = 2;
-
-let barSpeed = 3;
-
-let r = 5;
 
 let ball;
 let paddle;
@@ -75,17 +62,17 @@ function draw() {
 function checkCollision() {
     if (
         // if ball is larger than left side of paddle
-        ball.ballPosX > paddle.barPosX && // And if
+        ball.pos.x > paddle.barPosX && // And if
         // if ball is less that the right side of the paddle
-        ball.ballPosX < paddle.barPosX + paddle.sizeX && //and if
+        ball.pos.x < paddle.barPosX + paddle.sizeX && //and if
         // Ball is touching the top side of the paddle
-        ball.ballPosY + ball.radius > paddle.barPosY
+        ball.pos.y + ball.radius > paddle.barPosY
     ) {
         // console.log("GOT IT")
-        if (ball.ballPosY > paddle.barPosY + paddle.sizeY) {
+        if (ball.pos.y > paddle.barPosY + paddle.sizeY) {
             // console.log("under");
         } else {
-            ball.yspeed *= -1;
+            ball.vel.y = -ball.vel.y;
             // console.log("Top hit");
         }
     }
@@ -93,18 +80,18 @@ function checkCollision() {
     //sidebounce
     if (
         //if ball is below topbar
-        ball.ballPosY > paddle.barPosY && //and if
+        ball.pos.y > paddle.barPosY && //and if
         //if ball is above belowbar
-        ball.ballPosY < paddle.barPosY + paddle.sizeY && // and if
+        ball.pos.y < paddle.barPosY + paddle.sizeY && // and if
         //if ball is above left paddle side
-        ball.ballPosX + ball.radius > paddle.barPosX && // and if
+        ball.pos.x + ball.radius > paddle.barPosX && // and if
         //if ball is below right paddle side
-        ball.ballPosX - ball.radius < paddle.barPosX + paddle.sizeX
+        ball.pos.x - ball.radius < paddle.barPosX + paddle.sizeX
     ) {
-        ball.xspeed = -ball.xspeed;
+        ball.vel.x = -ball.vel.x;
         // console.log("Side Hit!");
     }
-    text(ball.ballPosY, 50, 50);
+    text(ball.pos.y, 50, 50);
 }
 
 function checkBrickCollision(ball, brick) {
@@ -116,13 +103,13 @@ function checkBrickCollision(ball, brick) {
     // Top or bottom collision
     if (
         // Ball's x is within brick's width
-        ball.ballPosX > brick.x &&
-        ball.ballPosX < brick.x + brick.w &&
+        ball.pos.x > brick.x &&
+        ball.pos.x < brick.x + brick.w &&
         // Ball is touching the top or bottom of the brick
-        ball.ballPosY + ball.radius > brick.y &&
-        ball.ballPosY - ball.radius < brick.y + brick.h
+        ball.pos.y + ball.radius > brick.y &&
+        ball.pos.y - ball.radius < brick.y + brick.h
     ) {
-        ball.yspeed = -ball.yspeed;
+        ball.vel.y = -ball.vel.y;
         // console.log("Top/Bottom Brick Hit");
         brick.destroyed = true;
     }
@@ -130,13 +117,13 @@ function checkBrickCollision(ball, brick) {
     // Side collision
     if (
         // Ball's y is within brick's height
-        ball.ballPosY > brick.y &&
-        ball.ballPosY < brick.y + brick.h &&
+        ball.pos.y > brick.y &&
+        ball.pos.y < brick.y + brick.h &&
         // Ball is hitting left or right side
-        ball.ballPosX + ball.radius > brick.x &&
-        ball.ballPosX - ball.radius < brick.x + brick.w
+        ball.pos.x + ball.radius > brick.x &&
+        ball.pos.x - ball.radius < brick.x + brick.w
     ) {
-        ball.xspeed *= -1;
+        ball.vel.x = ball.vel.x;
         // console.log("Side Brick Hit");
         brick.destroyed = true;
     }
