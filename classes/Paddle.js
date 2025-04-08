@@ -1,9 +1,9 @@
 class Paddle {
     constructor(sizeX, sizeY, barPosX, barPosY, barSpeed) {
         this.sizeX = 100;
-        this.sizeY = 20;
+        this.sizeY = 200;
         this.barPosX = width / 1.5;
-        this.barPosY = height * 0.9;
+        this.barPosY = height * 0.2;
         this.barSpeed = 10;
     }
 
@@ -32,6 +32,6 @@ class Paddle {
         else if (this.barPosX > width - this.sizeX) {
             this.barPosX = width - this.sizeX;
         }
-        console.log("bar pos x is = ",barPosX);
+        // console.log("bar pos x is = ",barPosX);
     }
 }

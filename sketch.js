@@ -36,39 +36,6 @@ function draw() {
     background(233);
     text(myKey, 50, 50);
 
-    //BAR SECTION
-
-    // // barBounce
-    // if (
-    //     //TopSurface
-    //     ballPosY >= barPosY - r &&
-    //     // Larger than left side
-    //     ballPosX >= barPosX &&
-    //     //larger than right side
-    //     ballPosX <= barPosX + barWidth
-    // ) {
-    //     yspeed = -yspeed;
-    //     // console.log(ballPosY);
-    // }
-
-    // // BarMovement
-    // push();
-    // if (keyIsDown(LEFT_ARROW) === true) {
-    //     barPosX -= barSpeed;
-    // } else if (keyIsDown(RIGHT_ARROW) === true) {
-    //     barPosX += barSpeed;
-    // }
-    // translate(barPosX, barPosY);
-    // rect(0, 0, barWidth, barHeight);
-    // pop();
-
-    // //walls
-    // if (barPosX < 0) {
-    //     barPosX = 0;
-    // } else if (barPosX > width - barWidth) {
-    //     barPosX = width - barWidth;
-    // }
-    // console.log(barPosX);
 
     paddle.drawPaddle();
     paddle.paddleMovement();
@@ -86,10 +53,27 @@ function checkCollision() {
         // if ball is less that the right side of the paddle
         ball.ballPosX < paddle.barPosX + paddle.sizeX && //and if
         // Ball is touching the top side of the paddle
-        ball.ballPosY + ball.radius > 270
+        ball.ballPosY + ball.radius > paddle.barPosY
     ) {
-        console.log("GOT IT")
+        // console.log("GOT IT")   
         ball.yspeed *= -1;
+        console.log("Top hit")
+    }
+
+    //sidebounce
+    if (
+        //if ball is below topbar
+        ball.ballPosY > paddle.barPosY && //and if
+        //if ball is above belowbar
+        ball.ballPosY < paddle.barPosY + paddle.sizeY && // and if
+        //if ball is above left paddle side
+        ball.ballPosX + ball.radius /2 > paddle.barPosX &&
+        ball.ballPosX + ball.radius /2 < paddle.barPosX + paddle.sizeX
+    ){
+        //semi working, only works when paddle is stationary, maybe make a new temporary value, set the ball.xspeed faster than the paddle speed for one frame and then re set it back to normal
+        ball.xspeed = -ball.xspeed
+        // ball.xspeed = -ball.xspeed
+        console.log("Side Hit!")
     }
     text(ball.ballPosY,50,50)
 }
