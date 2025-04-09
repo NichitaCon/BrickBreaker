@@ -1,10 +1,8 @@
-let myKey = "";
-
-let maxXVel = 5;
 
 let ball;
 let paddle;
 let bricks = [];
+let ballSpeed = 2;
 
 function setup() {
     createCanvas(250, 300);
@@ -17,12 +15,25 @@ function setup() {
 
     barWidth = 50;
     barHeight = 10;
-
-    ball = new Ball(width / 2, height / 2, 2, 2, 5);
-    paddle = new Paddle(100, 20, width / 1.5, height * 0.9, 1);
+        ball = new Ball({
+            velY: ballSpeed,
+            radius: null,
+            posX: null,
+            posY: null,
+        });
+        
+        
+        
+    paddle = new Paddle({
+        sizeX: null,
+        sizeY: null,
+        posX: null,
+        posY: null,
+        barSpeed: 3,
+    });
 
     let rows = 2;
-    let cols = 10;
+    let cols = 11;
     let brickW = width / cols;
     let brickH = 15;
 
@@ -38,7 +49,6 @@ function setup() {
 
 function draw() {
     background(233);
-    text(myKey, 50, 50);
 
     //Bricks section
     for (let i = 0; i < bricks.length; i++) {
@@ -72,20 +82,23 @@ function checkCollision() {
     ) {
         // console.log("GOT IT")
         if (ball.pos.y > paddle.pos.y + paddle.sizeY) {
+            //dont do anything if the ball is under the paddle
             // console.log("under");
         } else {
-
             // map the ball's x position on the paddle to a velocity
             let newVelX = map(
                 ball.pos.x,
                 paddle.pos.x,
                 paddle.pos.x + paddle.sizeX,
-                -maxXVel,
-                maxXVel
+                -ballSpeed,
+                ballSpeed
             );
 
+            // vector magnitude formula to make a new velY to keep a constant magnitude
+            let newVelY = -sqrt(sq(ballSpeed) - sq(newVelX)); // negative so ball goes up
+
             ball.vel.x = newVelX;
-            ball.vel.y = -ball.vel.y;
+            ball.vel.y = newVelY;
             // console.log("Top hit");
         }
     }
@@ -104,7 +117,7 @@ function checkCollision() {
         ball.vel.x = -ball.vel.x;
         // console.log("Side Hit!");
     }
-    text(ball.pos.y, 50, 50);
+    // text(ball.pos.y, 50, 50);
 }
 
 function checkBrickCollision(ball, brick) {
@@ -123,7 +136,7 @@ function checkBrickCollision(ball, brick) {
         ball.pos.y - ball.radius < brick.y + brick.h
     ) {
         ball.vel.y = -ball.vel.y;
-        // console.log("Top/Bottom Brick Hit");
+        console.log("Top/Bottom Brick Hit");
         brick.destroyed = true;
     }
 
@@ -136,8 +149,8 @@ function checkBrickCollision(ball, brick) {
         ball.pos.x + ball.radius > brick.x &&
         ball.pos.x - ball.radius < brick.x + brick.w
     ) {
-        ball.vel.x = ball.vel.x;
-        // console.log("Side Brick Hit");
+        ball.vel.x = -ball.vel.x;
+        console.log("Side Brick Hit");
         brick.destroyed = true;
     }
 }

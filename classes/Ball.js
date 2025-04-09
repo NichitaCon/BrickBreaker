@@ -1,8 +1,17 @@
 class Ball {
-    constructor(ballPosX,ballPosY,velX,velY,radius) {
-        this.pos = createVector(ballPosX,ballPosY)
-        this.vel = createVector(velX,velY)
-        this.radius = radius
+    constructor(obj) {
+        this.vel = createVector(0,obj.velY || 2)
+        this.radius = obj.radius || 5
+        if (obj.velY) {
+            this.pos = createVector(0, obj.velY);
+        } else {
+            this.pos = createVector(0, 2);
+        }
+        if (obj.posX && obj.posY) {
+            this.pos = createVector(obj.posX, obj.posX);
+        } else {
+            this.pos = createVector(width /2, height /2);
+        }
     }
     
     
