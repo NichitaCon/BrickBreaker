@@ -1,10 +1,17 @@
 class BrickBreaker {
-    constructor(xpos, ypos, width, height) {
-        // Set the position and size of the game world
-        this.xpos = xpos || 50; // Default to 0 if not provided
-        this.ypos = ypos || 50; // Default to 0 if not provided
-        this.width = width || 200; // Default width
-        this.height = height || 400; // Default height
+    constructor(obj) {
+        this.xpos = obj.xpos || 50;
+        this.ypos = obj.ypos || 50;
+        this.width = obj.width || 200;
+        this.height = obj.height || 400;
+        this.paddleSpeed = obj.paddleSpeed || 10
+        this.brickRows = obj.brickRows || 2
+        this.brickColumns = obj.brickColumns || 11
+        this.brickHeight = obj.brickHeight || 15
+        this.gameLength = obj.gameLength || 30
+
+        this.score = 0;
+        this.status = true;
 
         // Create the Ball, Paddle, and Bricks
         this.ball = new Ball({
@@ -14,8 +21,8 @@ class BrickBreaker {
             gameYpos: this.ypos,
             gameWidth: this.width,
             gameHeight: this.height,
-            posX: this.xpos + this.width / 2, // Position the ball within the world
-            posY: this.ypos + this.height / 2, // Position the ball within the world
+            posX: this.xpos + this.width / 2,
+            posY: this.ypos + this.height / 2,
         });
 
         this.paddle = new Paddle({
@@ -24,18 +31,17 @@ class BrickBreaker {
             gameXpos: this.xpos,
             gameWidth: this.width,
             gameHeight: this.height,
-            posX: this.xpos + this.width / 2 - 50, // Position the paddle within the world
-            posY: this.ypos + this.height * 0.9, // Position the paddle at the bottom of the world
-            barSpeed: 10,
+            posX: this.xpos + this.width / 2 - 50,
+            posY: this.ypos + this.height * 0.9,
+            barSpeed: this.paddleSpeed,
         });
 
         this.bricks = [];
-        let rows = 2;
-        let cols = 11;
-        let brickW = this.width / cols; // Brick width adjusted to the new world width
-        let brickH = 15;
+        let rows = this.brickRows;
+        let cols = this.brickColumns;
+        let brickW = this.width / cols;
+        let brickH = this.brickHeight;
 
-        // Create bricks and position them within the world
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
                 let brickX = this.xpos + col * brickW;
@@ -107,6 +113,7 @@ class BrickBreaker {
             ) {
                 ball.vel.y = -ball.vel.y;
                 brick.destroyed = true;
+                this.score += 10;
             }
 
             // Side collision
@@ -118,24 +125,31 @@ class BrickBreaker {
             ) {
                 ball.vel.x = -ball.vel.x;
                 brick.destroyed = true;
+                this.score += 10;
             }
         }
     }
 
     // Update the game objects
     update() {
+        if (!this.status) {
+            return;
+        }
         // Update the ball
         this.ball.moveBall();
 
         // Check collisions
         this.checkCollision(); // Ball and paddle collision
         this.checkBrickCollision(); // Ball and brick collision
+
+
+        
     }
 
     // Draw all the game objects
     draw() {
         background(233); // Clear the canvas
-        fill(233);
+        fill(255);
         rect(this.xpos, this.ypos, this.width, this.height);
 
         // Draw bricks
@@ -144,13 +158,15 @@ class BrickBreaker {
         }
 
         // Draw paddle
+
+        fill(0);
         this.paddle.drawPaddle();
         this.paddle.paddleMovement();
 
         // Draw ball
         this.ball.drawBall();
 
-        console.log(frameCount);
+        // console.log(frameCount);
 
         let totalSecs = frameCount / 60;
         let mins = floor(totalSecs / 60);
@@ -159,10 +175,35 @@ class BrickBreaker {
         if (secs < 10) {
             secs = "0" + secs;
         }
-        console.log(mins, secs);
+        // console.log(mins, secs);
 
         let time = mins + ":" + secs;
         textSize(25);
-        text(time, this.xpos + 30, this.ypos + 100);
+        if (this.status) {
+            text(
+                "Score: " + this.score,
+                this.xpos + 5,
+                this.ypos + 25
+            );
+            text(
+                secs - this.gameLength+"s",
+                this.xpos + this.width - 50,
+                this.ypos + 25
+            );
+        }
+
+        if (secs >= this.gameLength || this.ball.ballLost) {
+            // console.log("active");
+            textSize(this.width * 0.13);
+            text(
+                "Score: " + this.score,
+                this.xpos + this.width / 2 - this.width * 0.25,
+                this.ypos + this.height * 0.35
+            );
+
+            this.status = false;
+        }
+
+        // console.log(this.ball.ballLost)
     }
 }
