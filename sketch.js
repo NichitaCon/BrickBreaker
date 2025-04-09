@@ -1,5 +1,7 @@
 let myKey = "";
 
+let maxXVel = 5;
+
 let ball;
 let paddle;
 let bricks = [];
@@ -62,16 +64,27 @@ function draw() {
 function checkCollision() {
     if (
         // if ball is larger than left side of paddle
-        ball.pos.x > paddle.barPosX && // And if
+        ball.pos.x > paddle.pos.x && // And if
         // if ball is less that the right side of the paddle
-        ball.pos.x < paddle.barPosX + paddle.sizeX && //and if
+        ball.pos.x < paddle.pos.x + paddle.sizeX && //and if
         // Ball is touching the top side of the paddle
-        ball.pos.y + ball.radius > paddle.barPosY
+        ball.pos.y + ball.radius > paddle.pos.y
     ) {
         // console.log("GOT IT")
-        if (ball.pos.y > paddle.barPosY + paddle.sizeY) {
+        if (ball.pos.y > paddle.pos.y + paddle.sizeY) {
             // console.log("under");
         } else {
+
+            // map the ball's x position on the paddle to a velocity
+            let newVelX = map(
+                ball.pos.x,
+                paddle.pos.x,
+                paddle.pos.x + paddle.sizeX,
+                -maxXVel,
+                maxXVel
+            );
+
+            ball.vel.x = newVelX;
             ball.vel.y = -ball.vel.y;
             // console.log("Top hit");
         }
@@ -80,13 +93,13 @@ function checkCollision() {
     //sidebounce
     if (
         //if ball is below topbar
-        ball.pos.y > paddle.barPosY && //and if
+        ball.pos.y > paddle.pos.y && //and if
         //if ball is above belowbar
-        ball.pos.y < paddle.barPosY + paddle.sizeY && // and if
+        ball.pos.y < paddle.pos.y + paddle.sizeY && // and if
         //if ball is above left paddle side
-        ball.pos.x + ball.radius > paddle.barPosX && // and if
+        ball.pos.x + ball.radius > paddle.pos.x && // and if
         //if ball is below right paddle side
-        ball.pos.x - ball.radius < paddle.barPosX + paddle.sizeX
+        ball.pos.x - ball.radius < paddle.pos.x + paddle.sizeX
     ) {
         ball.vel.x = -ball.vel.x;
         // console.log("Side Hit!");

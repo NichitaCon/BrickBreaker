@@ -3,7 +3,6 @@ class Ball {
         this.pos = createVector(ballPosX,ballPosY)
         this.vel = createVector(velX,velY)
         this.radius = radius
-
     }
     
     
