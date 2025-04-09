@@ -3,10 +3,13 @@ class Paddle {
         this.sizeX = obj.sizeX || 100;
         this.sizeY = obj.sizeY || 10;
         this.barSpeed = obj.barSpeed || 10;
+        this.gameXpos = obj.gameXpos
+        this.gameWidth = obj.gameWidth
+        this.gameHeight = obj.gameHeight
         if (obj.posX && obj.posY) {
             this.pos = createVector(obj.posX, obj.posY);
         } else {
-            this.pos = createVector(width * 0.3, height * 0.9);
+            this.pos = createVector(width /2 - this.sizeX/2, height * 0.9);
         }
     }
 
@@ -28,12 +31,12 @@ class Paddle {
 
         //Paddle Restraint
         //left side
-        if (this.pos.x < 0) {
-            this.pos.x = 0;
+        if (this.pos.x < this.gameXpos) {
+            this.pos.x = this.gameXpos;
         }
         //right side
-        else if (this.pos.x > width - this.sizeX) {
-            this.pos.x = width - this.sizeX;
+        else if (this.pos.x > this.gameXpos + this.gameWidth- this.sizeX) {
+            this.pos.x = this.gameXpos + this.gameWidth- this.sizeX;
         }
         // console.log("bar pos x is = ",barPosX);
     }
