@@ -4,18 +4,20 @@ class BrickBreaker {
         this.ypos = obj.ypos || 50;
         this.width = obj.width || 200;
         this.height = obj.height || 400;
+        this.paddleWidth = obj.paddleWidth || this.width * .4
         this.paddleSpeed = obj.paddleSpeed || 10
         this.brickRows = obj.brickRows || 2
         this.brickColumns = obj.brickColumns || 11
         this.brickHeight = obj.brickHeight || 15
         this.gameLength = obj.gameLength || 30
+        this.ballSpeed = obj.ballSpeed || 3
 
         this.score = 0;
         this.status = true;
 
         // Create the Ball, Paddle, and Bricks
         this.ball = new Ball({
-            velY: ballSpeed,
+            velY: this.ballSpeed,
             radius: 10,
             gameXpos: this.xpos,
             gameYpos: this.ypos,
@@ -26,7 +28,7 @@ class BrickBreaker {
         });
 
         this.paddle = new Paddle({
-            sizeX: 100,
+            sizeX: this.paddleWidth,
             sizeY: 10,
             gameXpos: this.xpos,
             gameWidth: this.width,
@@ -62,6 +64,7 @@ class BrickBreaker {
         if (
             // if ball is larger than left side of paddle
             ball.pos.x > paddle.pos.x &&
+            // if ball is below the right side of the paddle
             ball.pos.x < paddle.pos.x + paddle.sizeX &&
             // Ball is touching the top side of the paddle
             ball.pos.y + ball.radius > paddle.pos.y
@@ -73,10 +76,10 @@ class BrickBreaker {
                     ball.pos.x,
                     paddle.pos.x,
                     paddle.pos.x + paddle.sizeX,
-                    -ballSpeed,
-                    ballSpeed
+                    - this.ballSpeed,
+                    this.ballSpeed
                 );
-                let newVelY = -sqrt(sq(ballSpeed) - sq(newVelX)); // Negative so ball goes up
+                let newVelY = -sqrt(sq(this.ballSpeed) - sq(newVelX)); // Negative so ball goes up
 
                 ball.vel.x = newVelX;
                 ball.vel.y = newVelY;

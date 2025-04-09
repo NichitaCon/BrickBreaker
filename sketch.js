@@ -1,6 +1,4 @@
 
-
-let ballSpeed = 6;
 let brickBreaker;
 
 function setup() {
@@ -10,13 +8,15 @@ function setup() {
     brickBreaker = new BrickBreaker({
         xpos: 50,
         ypos: 50,
-        width: 500,
+        width: 200,
         height: 400,
+        paddleWidth: 90,
         paddleSpeed: 5,
-        brickRows: 2,
-        brickColumns: 11,
+        brickRows: 3,
+        brickColumns: 7,
         brickHeight: 15,
         gameLength: 20,
+        ballSpeed: 6
 
     });
 
